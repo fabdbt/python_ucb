@@ -1,65 +1,47 @@
 #!/usr/bin/python3
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import linucb
+from linucb import ucb
+from router import Router
 import json
-import cgi
 import logging
 from urllib.parse import urlparse, parse_qs
 
 class Server(BaseHTTPRequestHandler):
-  def _set_headers(self):
-    self.send_response(200)
-    self.send_header('Content-Type', 'application/json')
-    self.end_headers()
-
-  # def do_HEAD(self):
-  #   self._set_headers()
-
   def do_GET(self):
-    self._set_headers()
+    self.__set_headers()
 
     data = parse_qs(urlparse(self.path).query)
-    message = Router(self.command, self.path, data).process()
+    message = Router(self.command, urlparse(self.path).path, data).process()
 
-    self.respond(message)
+    self.__respond(message)
 
   def do_POST(self):
-    self._set_headers()
+    self.__set_headers()
 
     length = int(self.headers['Content-Length'])
     data = str(self.rfile.read(length), 'utf-8')
 
     message = Router(self.command, self.path, data).process()
 
-    self.respond(message)
+    self.__respond(message)
 
-  def respond(self, message):
+  # Private methods
+
+  def __set_headers(self):
+      self.send_response(200)
+      self.send_header('Content-Type', 'application/json')
+      self.end_headers()
+
+  def __respond(self, message, success=True):
+    print(ucb.theta)
+
     response = {
-      'success': True,
+      'success': success,
       'message': message
     }
 
     self.wfile.write(bytes(json.dumps(response), 'utf-8'))
-
-class Router(object):
-  def __init__(self, command, path, args):
-    self.command = command
-    self.path = path
-    self.args = args
-
-  def process(self):
-    postvars = cgi.parse_qs(self.args, keep_blank_values=1)
-
-    if (self.command == 'POST'):
-     if (self.path == '/teams'):
-        print(postvars)
-        return 'create teams'
-    elif (self.command == 'GET'):
-      if (self.path == '/thetas'):
-        return 'get thetas'
-    else:
-      return 'false'
 
 logging.warning('Starting server...')
 

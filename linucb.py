@@ -1,4 +1,5 @@
 # coding: utf-8
+# Singletion LinUcb
 
 import numpy as np
 from   numpy.linalg import inv
@@ -9,7 +10,7 @@ from   matplotlib import pyplot
 class LinUCB:
 
   alpha      = 20
-  n_arms     = 2
+  n_arms     = 20
   n_features = 3
 
   def __init__(self):
@@ -24,20 +25,42 @@ class LinUCB:
       self.A[i] = np.identity(self.n_features)
       self.b[i] = np.repeat(0.0, self.n_features)
 
-  def algo(self, X):
+  # Buggy because of identity matrix
+  # def create_arms(self, n_arms):
+  #   self.n_arms += n_arms
+
+  #   self.A += np.identity(self.n_features) * n_arms
+  #   self.b += np.repeat(0.0, self.n_features) * n_arms
+  #   self.theta = np.concatenate((self.theta, np.repeat(0.0, self.n_features * n_arms).reshape(n_arms, self.n_features)), axis=0)
+  #   self.p += n_arms * [0.0]
+
+
+  # x is required into request to prevent 2 people making
+  # a simultaneous request and updating same arm. X[i] (arm's features)
+  # shouldn't be the same for each tirage, so we need to differentiate them
+
+  def reward(self, x, i, reward):
+    X = np.ndarray((self.n_features,), buffer=np.array(x))
+    self.r = reward
+
+    self.A[i] += np.outer(X, np.transpose(X))
+    self.b[i] += self.r * X
+
+  def get_arm(self, x):
+    self.process(x)
+
+    return { 'arm': self.best_a, 'x': list(x[self.best_a]) }
+
+  def process(self, X):
     for i in range(self.n_arms):
       inv_A = inv(self.A[i])
       self.theta[i, ] = mult(inv_A, self.b[i])
       self.p[i] = mult(self.theta[i, ], X[i]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[i]), inv_A), X[i]))
 
-      self.best_a = np.argmax(self.p)
+    self.best_a = np.argmax(self.p)
 
-      # return theta, best_a
-      return
-
-x = LinUCB()
-print(x.A)
-#x.algo('4')
+ucb = LinUCB()
+#x.process('4')
 
 # alpha = 20
 
