@@ -1,5 +1,4 @@
 import cgi
-import json
 import numpy as np
 from linucb import ucb
 
@@ -44,9 +43,6 @@ class Router(object):
     return str(ucb.get_arm(x))
 
   def __post_reward(self, postvars):
-    # Need to be get from tirages request !!
-    # x = np.random.random((ucb.n_arms, ucb.n_features))
-
     reward = int(''.join(self.postvars['reward']))
     i = int(''.join(self.postvars['arm']))
     x = ''.join(self.postvars['x'])

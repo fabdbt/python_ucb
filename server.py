@@ -4,7 +4,6 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from linucb import ucb
 from router import Router
 import json
-import logging
 from urllib.parse import urlparse, parse_qs
 
 class Server(BaseHTTPRequestHandler):
@@ -43,7 +42,7 @@ class Server(BaseHTTPRequestHandler):
 
     self.wfile.write(bytes(json.dumps(response), 'utf-8'))
 
-logging.warning('Starting server...')
+print('Starting server...')
 
 server_address = ('127.0.0.1', 8080)
 httpd = HTTPServer(server_address, Server)
