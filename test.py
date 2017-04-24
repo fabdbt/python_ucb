@@ -51,4 +51,6 @@ ucb = linucb.LinUCB()
 # Assert that we can create arms
 n_arms = ucb.n_arms
 ucb.create_arms(10)
+
 assert(ucb.n_arms == (n_arms + 10))
+assert(len(ucb.theta) == (n_arms + 10))

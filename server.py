@@ -44,7 +44,7 @@ class Server(BaseHTTPRequestHandler):
 
 print('Starting server...')
 
-server_address = ('127.0.0.1', 8080)
+server_address = ('0.0.0.0', 8080)
 httpd = HTTPServer(server_address, Server)
 
 print('Running server...')

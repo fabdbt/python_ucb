@@ -1,14 +1,11 @@
 # coding: utf-8
-# Singletion LinUcb
+# Singleton LinUcb
 
 import numpy as np
 from   numpy.linalg import inv
 from   numpy import matmul as mult
-import matplotlib.pyplot as plt
-from   matplotlib import pyplot
 
 class LinUCB:
-
   def __init__(self, alpha = 20, n_arms = 20, n_features = 3):
     self.alpha = alpha
     self.n_arms = n_arms
@@ -17,7 +14,6 @@ class LinUCB:
     self.A = [None] * self.n_arms
     self.b = [None] * self.n_arms
     self.theta = np.repeat(0.0, self.n_features * self.n_arms).reshape(self.n_arms, self.n_features)
-    self.p = [0.0] * self.n_arms
 
     for i in range(self.n_arms):
       self.A[i] = np.identity(self.n_features)
@@ -27,13 +23,11 @@ class LinUCB:
     for i in range(n_arms):
       self.A.append(np.identity(self.n_features))
       self.b.append(np.repeat(0.0, self.n_features))
-      self.p.append(n_arms * [0.0])
 
     self.theta = np.concatenate((self.theta, np.repeat(0.0, self.n_features * n_arms).reshape(n_arms, self.n_features)), axis=0)
 
     self.n_arms += n_arms
     return self.n_arms
-
 
   # x is required into request to prevent 2 people making
   # a simultaneous request and updating same arm. X[i] (arm's features)
@@ -51,12 +45,13 @@ class LinUCB:
     return { 'arm': best_a, 'x': list(x[best_a]) }
 
   def process(self, X):
+    p = [0.0] * self.n_arms
+
     for i in range(self.n_arms):
       inv_A = inv(self.A[i])
       self.theta[i, ] = mult(inv_A, self.b[i])
-      self.p[i] = mult(self.theta[i, ], X[i]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[i]), inv_A), X[i]))
+      p[i] = mult(self.theta[i, ], X[i]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[i]), inv_A), X[i]))
 
-    return(np.argmax(self.p))
+    return np.argmax(p)
 
 ucb = LinUCB()
-# print(ucb.theta)
