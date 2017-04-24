@@ -19,7 +19,6 @@ class LinUCB:
     self.theta = np.repeat(0.0, self.n_features * self.n_arms).reshape(self.n_arms, self.n_features)
     self.p = [0.0] * self.n_arms
 
-    # self.create_arms(self.n_arms)
     for i in range(self.n_arms):
       self.A[i] = np.identity(self.n_features)
       self.b[i] = np.repeat(0.0, self.n_features)

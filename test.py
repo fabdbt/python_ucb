@@ -4,7 +4,7 @@ import linucb
 ucb = linucb.LinUCB()
 
 # Assert that rewarding only arm 1 and not 0 set the best arm to 1
-for i in range(10):
+for i in range(1000):
   # Set random scores
   x = np.random.random((ucb.n_arms, ucb.n_features))
 
@@ -26,7 +26,7 @@ assert (arm_n == 1)
 ucb = linucb.LinUCB()
 
 # Assert that rewarding only if feature 0 is good augmente theta of feature 0
-for i in range(100):
+for i in range(1000):
   # Set random scores
   x = np.random.random((ucb.n_arms, ucb.n_features))
 
@@ -43,3 +43,12 @@ for i in range(100):
 
 for i in range(ucb.n_arms):
   assert (np.argmax(ucb.theta[i]) == 0)
+
+
+# Reset ucb
+ucb = linucb.LinUCB()
+
+# Assert that we can create arms
+n_arms = ucb.n_arms
+ucb.create_arms(10)
+assert(ucb.n_arms == (n_arms + 10))
