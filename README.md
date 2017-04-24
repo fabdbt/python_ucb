@@ -8,6 +8,7 @@ A simple HTTP server that handle requests to feed a LinUCB machine learning algo
 ```bash
 python3 server.py
 ```
+Otherwise, you can use docker to run it (see Dockerfile)
 
 # Endpoints:
 - GET /thetas : Get current thetas values
@@ -48,3 +49,7 @@ curl -X POST \
   -H 'content-type: application/x-www-form-urlencoded' \
   -d n_arms=5
 ```
+
+# TODO :
+- Add persistence (txt file ?)
+

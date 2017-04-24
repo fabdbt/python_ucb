@@ -17,11 +17,13 @@ class Router(object):
       elif (self.path == '/tirages'):
         return self.__post_tirages()
       elif (self.path == '/reward'):
-        return self.__post_reward(self.postvars)
+        return self.__post_reward()
 
 
     elif (self.command == 'GET'):
-      if (self.path == '/thetas'):
+      if self.path == '/':
+        return 'Welcome to LinUCB API !'
+      elif (self.path == '/thetas'):
         return self.__get_thetas()
 
     return False
@@ -42,7 +44,7 @@ class Router(object):
 
     return str(ucb.get_arm(x))
 
-  def __post_reward(self, postvars):
+  def __post_reward(self):
     reward = int(''.join(self.postvars['reward']))
     i = int(''.join(self.postvars['arm']))
     x = ''.join(self.postvars['x'])
