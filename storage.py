@@ -1,24 +1,26 @@
 import numpy as np
 import os
 
-REQUIRED_STORAGE_FILES = ['thetas.npy', 'A.npy', 'b.npy']
+REQUIRED_STORAGE_FILES = ['theta.npy', 'A.npy', 'b.npy']
 
 class Storage:
 
   def __init__(self, path = './storage/'):
     self.folder = path
-    self.__check_corrupted_storage()
+    self.files = {}
+
+    self.__check_storage_files()
 
   def has_storage(self):
-    return (self.__storage_files() != [])
+    return bool(self.__storage_files())
 
   def load(self):
-    ucb = { os.path.splitext(k)[0]: v for k, v in self.__get_files().items() }
+    data = { os.path.splitext(k)[0]: v for k, v in self.__storage_files().items() }
 
-    if ucb:
-      self.theta = ucb['theta']
-      self.A = ucb['A']
-      self.b = ucb['b']
+    if data:
+      self.theta = data['theta']
+      self.A = data['A']
+      self.b = data['b']
 
       return True
     else:
@@ -43,28 +45,19 @@ class Storage:
 
   # Private
 
-  def __check_corrupted_storage(self):
-    if self.has_storage():
-      files = list(self.__get_files().keys())
-
-      if (files.sort() != REQUIRED_STORAGE_FILES.sort()):
-        raise Exception('Corrupted storage. Please fix it or remove files into folder ' + self.folder)
-
-      return True
-
-  def __get_files(self):
-    if self.has_storage():
-      files = {}
-
-      for filename in self.__storage_files():
-        files[filename] = self.__get(filename)
-
-      return files
-    else:
-      return False
+  def __check_storage_files(self):
+    if (self.has_storage() and (len(self.__storage_files()) < len(REQUIRED_STORAGE_FILES))):
+      raise Exception('Corrupted storage. Please fix it or remove files into folder ' + self.folder)
 
   def __storage_files(self):
-    return os.listdir(self.folder)
+    # Prevent from listing directory on each call if files are found
+    if self.files:
+      return self.files
+
+    for filename in np.intersect1d(REQUIRED_STORAGE_FILES, os.listdir(self.folder)):
+      self.files[filename] = self.__get(filename)
+
+    return self.files
 
   def __get(self, filename):
     return np.load(self.folder + filename)
