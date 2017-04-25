@@ -31,7 +31,7 @@ class Router(object):
   # Actions
 
   def __get_thetas(self):
-    return ucb.theta.tolist()
+    return ucb.store.theta.tolist()
 
   def __post_arms(self):
     n_arms = int(''.join(self.postvars['n_arms']))

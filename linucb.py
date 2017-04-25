@@ -4,27 +4,30 @@
 import numpy as np
 from   numpy.linalg import inv
 from   numpy import matmul as mult
+import storage as store
 
 class LinUCB:
   def __init__(self, alpha = 20, n_arms = 20, n_features = 3):
     self.alpha = alpha
     self.n_arms = n_arms
     self.n_features = n_features
+    self.store = store.Storage()
 
-    self.A = [None] * self.n_arms
-    self.b = [None] * self.n_arms
-    self.theta = np.repeat(0.0, self.n_features * self.n_arms).reshape(self.n_arms, self.n_features)
-
-    for i in range(self.n_arms):
-      self.A[i] = np.identity(self.n_features)
-      self.b[i] = np.repeat(0.0, self.n_features)
+    if self.store.has_storage():
+      print('Storage found')
+      self.store.load()
+    else:
+      print('Storage not found')
+      self.store.create(self.n_arms, self.n_features)
 
   def create_arms(self, n_arms):
     for i in range(n_arms):
-      self.A.append(np.identity(self.n_features))
-      self.b.append(np.repeat(0.0, self.n_features))
+      self.store.A.append(np.identity(self.n_features))
+      self.store.b.append(np.repeat(0.0, self.n_features))
 
-    self.theta = np.concatenate((self.theta, np.repeat(0.0, self.n_features * n_arms).reshape(n_arms, self.n_features)), axis=0)
+    self.store.theta = np.concatenate((self.store.theta, np.repeat(0.0, self.n_features * n_arms).reshape(n_arms, self.n_features)), axis=0)
+
+    self.store.save()
 
     self.n_arms += n_arms
     return self.n_arms
@@ -36,8 +39,10 @@ class LinUCB:
   def reward(self, x, i, reward):
     X = np.ndarray((self.n_features), buffer=np.array(x))
 
-    self.A[i] += np.outer(X, np.transpose(X))
-    self.b[i] += reward * X
+    self.store.A[i] += np.outer(X, np.transpose(X))
+    self.store.b[i] += reward * X
+
+    self.store.save()
 
   def get_arm(self, x):
     best_a = self.process(x)
@@ -48,9 +53,11 @@ class LinUCB:
     p = [0.0] * self.n_arms
 
     for i in range(self.n_arms):
-      inv_A = inv(self.A[i])
-      self.theta[i, ] = mult(inv_A, self.b[i])
-      p[i] = mult(self.theta[i, ], X[i]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[i]), inv_A), X[i]))
+      inv_A = inv(self.store.A[i])
+      self.store.theta[i, ] = mult(inv_A, self.store.b[i])
+      p[i] = mult(self.store.theta[i, ], X[i]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[i]), inv_A), X[i]))
+
+    self.store.save()
 
     return np.argmax(p)
 

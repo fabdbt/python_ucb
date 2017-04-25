@@ -33,8 +33,6 @@ class Server(BaseHTTPRequestHandler):
       self.end_headers()
 
   def __respond(self, message, success=True):
-    print(ucb.theta)
-
     response = {
       'success': success,
       'message': message
