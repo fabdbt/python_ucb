@@ -9,22 +9,25 @@ import storage as store
 class LinUCB:
   def __init__(self, alpha = 20, n_arms = 20, n_features = 3):
     self.alpha = alpha
-    self.n_arms = n_arms
-    self.n_features = n_features
+
     self.store = store.Storage()
 
     if self.store.has_storage():
       print('Storage found')
       self.store.load()
+
+      self.n_arms = len(self.store.A)
+      self.n_features = list(self.store.A.shape)[1]
     else:
       print('Storage not found')
+      self.n_arms = n_arms
+      self.n_features = n_features
+
       self.store.create(self.n_arms, self.n_features)
 
   def create_arms(self, n_arms):
-    for i in range(n_arms):
-      self.store.A.append(np.identity(self.n_features))
-      self.store.b.append(np.repeat(0.0, self.n_features))
-
+    self.store.A = np.concatenate((self.store.A, [np.identity(self.n_features)] * n_arms), axis = 0)
+    self.store.b = np.concatenate((self.store.b, [np.repeat(0.0, self.n_features)] * n_arms), axis = 0)
     self.store.theta = np.concatenate((self.store.theta, np.repeat(0.0, self.n_features * n_arms).reshape(n_arms, self.n_features)), axis=0)
 
     self.store.save()

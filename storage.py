@@ -7,15 +7,16 @@ class Storage:
 
   def __init__(self, path = './storage/'):
     self.folder = path
-    self.files = {}
+    self.files = self.__get_storage_files() # Only used at initialization
 
-    self.__check_storage_files()
+    if self.has_storage():
+      self.__check_storage_files()
 
   def has_storage(self):
-    return bool(self.__storage_files())
+    return bool(self.files)
 
   def load(self):
-    data = { os.path.splitext(k)[0]: v for k, v in self.__storage_files().items() }
+    data = { os.path.splitext(k)[0]: v for k, v in self.files.items() }
 
     if data:
       self.theta = data['theta']
@@ -46,18 +47,24 @@ class Storage:
   # Private
 
   def __check_storage_files(self):
-    if (self.has_storage() and (len(self.__storage_files()) < len(REQUIRED_STORAGE_FILES))):
+    # Check all files are presents
+    if (len(self.files) < len(REQUIRED_STORAGE_FILES)):
       raise Exception('Corrupted storage. Please fix it or remove files into folder ' + self.folder)
+    else:
+      # Check size of file contents are equals
+      sizes = []
+      for k, v in self.files.items():
+        sizes.append(len(v))
+        if not (all(sizes[0] == size for size in sizes)):
+          raise Exception('Corrupted storage. Please fix it or remove files into folder ' + self.folder)
 
-  def __storage_files(self):
+  def __get_storage_files(self):
+    files = {}
     # Prevent from listing directory on each call if files are found
-    if self.files:
-      return self.files
-
     for filename in np.intersect1d(REQUIRED_STORAGE_FILES, os.listdir(self.folder)):
-      self.files[filename] = self.__get(filename)
+      files[filename] = self.__get(filename)
 
-    return self.files
+    return files
 
   def __get(self, filename):
     return np.load(self.folder + filename)
