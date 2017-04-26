@@ -7,19 +7,19 @@ from   numpy import matmul as mult
 import storage as store
 
 class LinUCB:
-  def __init__(self, alpha = 20, n_arms = 20, n_features = 3):
+  def __init__(self, alpha = 20, n_arms = 20, n_features = 3, storage = True):
     self.alpha = alpha
 
-    self.store = store.Storage()
+    self.store = store.Storage(persistent = storage)
 
-    if self.store.has_storage():
+    if storage == True and self.store.has_storage():
       print('Storage found')
       self.store.load()
 
       self.n_arms = len(self.store.A)
       self.n_features = list(self.store.A.shape)[1]
     else:
-      print('Storage not found')
+      print('Storage not found or disabled')
       self.n_arms = n_arms
       self.n_features = n_features
 

@@ -8,7 +8,7 @@ RUN apt-get update
 RUN apt-get install python3-tk -y
 RUN pip3 install numpy scipy matplotlib
 
-COPY . /src
+COPY ./src /src
 
 EXPOSE 8080
 CMD [ "python3", "./src/server.py" ]

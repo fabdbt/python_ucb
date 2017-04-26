@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from linucb import ucb
 from router import Router
 import json
 from urllib.parse import urlparse, parse_qs
