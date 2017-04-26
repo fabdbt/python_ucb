@@ -6,13 +6,15 @@ A simple HTTP server that handle requests to feed a LinUCB machine learning algo
 
 # How to run it ?
 ```bash
-python3 server.py
+python3 src/server.py
 ```
 Otherwise, you can use docker to run it (see Dockerfile)
 
 # Endpoints:
 - GET /thetas : Get current thetas values
-- POST /teams : Update teams
+- POST /arms : Create arms (n_arms)
+- POST /reward : Send reward (arm, reward, x)
+- POST /tirages : Send tirages (generated random for moment)
 
 # Exemple request :
 
@@ -52,4 +54,4 @@ curl -X POST \
 
 # TODO :
 - Add persistence (txt file ?)
-
+- Add Token authentication

@@ -1,5 +1,5 @@
 import numpy as np
-import sys, os
+import os
 
 REQUIRED_STORAGE_FILES = ['theta.npy', 'A.npy', 'b.npy']
 
