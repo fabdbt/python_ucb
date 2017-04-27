@@ -25,6 +25,10 @@ class Router(object):
         return 'Welcome to LinUCB API !'
       elif (self.path == '/thetas'):
         return self.__get_thetas()
+      elif (self.path == '/a'):
+        return self.__get_a()
+      elif (self.path == '/b'):
+        return self.__get_b()
 
     return False
 
@@ -32,6 +36,12 @@ class Router(object):
 
   def __get_thetas(self):
     return { k: v.tolist() for k, v in ucb.store.theta.items() }
+
+  def __get_a(self):
+    return { k: v.tolist() for k, v in ucb.store.A.items() }
+
+  def __get_b(self):
+    return { k: v.tolist() for k, v in ucb.store.b.items() }
 
   def __post_arms(self):
     arms = self.postvars['arms']
