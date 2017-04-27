@@ -1,5 +1,5 @@
 # docker build -t python_ucb .
-# docker run -it --rm -p 8080:8080 -v storage:/storage python_ucb
+# docker run -it --rm -p 8080:8080 -v storage:/storage -e AUTH_KEY=private_token python_ucb
 
 FROM python:3.6-slim
 MAINTAINER Fabien Dobat 'fabien.dobat@gmail.com'
