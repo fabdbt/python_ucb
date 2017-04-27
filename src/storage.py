@@ -3,6 +3,7 @@ import os
 
 REQUIRED_STORAGE_FILES = ['theta.npy', 'A.npy', 'b.npy']
 CORRUPTED_MESSAGE = 'Corrupted storage. Please fix it or remove files into folder '
+DEFAULT_N_FEATURES = 3
 
 class Storage:
 
@@ -10,11 +11,18 @@ class Storage:
     self.folder = path
     self.persistent = persistent
 
+    self.A = dict()
+    self.b = dict()
+    self.theta = dict()
+
     if self.persistent == True:
-      self.files = self.__get_storage_files() # Only used at initialization
+      # Only used at initialization
+      self.files = self.__get_storage_files()
 
       if self.has_storage():
         self.__check_storage_files()
+        self.load()
+        print('Storage loaded')
 
   def has_storage(self):
     return bool(self.files)
@@ -31,10 +39,11 @@ class Storage:
     else:
       return False
 
-  def create(self, n_features, arms = []):
-    self.A = dict()
-    self.b = dict()
-    self.theta = dict()
+  def create(self, arms = []):
+    if self.n_arms() > 0:
+      n_features = self.n_features()
+    else:
+      n_features = DEFAULT_N_FEATURES # First arm features
 
     for n in arms:
       self.A[n] = np.identity(n_features)
@@ -42,6 +51,8 @@ class Storage:
       self.theta[n] = np.repeat(0.0, n_features)
 
     self.save()
+
+    return arms
 
   def save(self):
     if self.persistent == True:
@@ -51,6 +62,12 @@ class Storage:
 
   def n_arms(self):
     return len(self.theta)
+
+  def n_features(self):
+    if self.n_arms() > 0 and len(list(self.A.values())[0]) > 0:
+      return len(list(self.A.values())[0][0])
+    else:
+      return 0
 
   # Private
 
