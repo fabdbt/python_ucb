@@ -2,6 +2,7 @@ import numpy as np
 import os
 
 REQUIRED_STORAGE_FILES = ['theta.npy', 'A.npy', 'b.npy']
+CORRUPTED_MESSAGE = 'Corrupted storage. Please fix it or remove files into folder '
 
 class Storage:
 
@@ -56,7 +57,7 @@ class Storage:
   def __check_storage_files(self):
     # Check all files are presents
     if (len(self.files) < len(REQUIRED_STORAGE_FILES)):
-      raise Exception('Corrupted storage. Please fix it or remove files into folder ' + self.folder)
+      raise Exception(CORRUPTED_MESSAGE + self.folder)
     else:
       # Check size of file contents are equals
       sizes = []
@@ -64,7 +65,7 @@ class Storage:
         sizes.append(len(v))
 
         if not (all(sizes[0] == size for size in sizes)):
-          raise Exception('Corrupted storage. Please fix it or remove files into folder ' + self.folder)
+          raise Exception(CORRUPTED_MESSAGE + self.folder)
 
   def __get_storage_files(self):
     files = {}

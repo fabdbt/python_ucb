@@ -40,13 +40,13 @@ class Router(object):
 
   def __post_tirages(self):
     # Simulate random features for each arm
+    # TODO : get from request
     x = dict()
 
     for n in ucb.store.theta:
       x[n] = np.random.random(ucb.n_features)
-    # x = np.random.random(len(ucb.store.arms), ucb.n_features)
 
-    return str(ucb.get_arm(x))
+    return ucb.get_arm(x)
 
   def __post_reward(self):
     reward = int(''.join(self.postvars['reward']))
