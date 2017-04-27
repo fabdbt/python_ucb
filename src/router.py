@@ -36,7 +36,7 @@ class Router(object):
   def __post_arms(self):
     arms = self.postvars['arms']
 
-    return ucb.create_arms(arms)
+    return ucb.store.create(arms)
 
   def __post_tirages(self):
     # Simulate random features for each arm
@@ -44,7 +44,7 @@ class Router(object):
     x = dict()
 
     for n in ucb.store.theta:
-      x[n] = np.random.random(ucb.n_features)
+      x[n] = np.random.random(ucb.store.n_features())
 
     return ucb.get_arm(x)
 
