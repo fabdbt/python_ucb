@@ -30,15 +30,15 @@ class Storage:
     else:
       return False
 
-  def create(self, n_arms, n_features):
-    self.A = [None] * n_arms
-    self.b = [None] * n_arms
+  def create(self, n_features, arms = []):
+    self.A = dict()
+    self.b = dict()
+    self.theta = dict()
 
-    for i in range(n_arms):
-      self.A[i] = np.identity(n_features)
-      self.b[i] = np.repeat(0.0, n_features)
-
-    self.theta = np.repeat(0.0, n_features * n_arms).reshape(n_arms, n_features)
+    for n in arms:
+      self.A[n] = np.identity(n_features)
+      self.b[n] = np.repeat(0.0, n_features)
+      self.theta[n] = np.repeat(0.0, n_features)
 
     self.save()
 
@@ -47,6 +47,9 @@ class Storage:
       self.__save('A', self.A)
       self.__save('b', self.b)
       self.__save('theta', self.theta)
+
+  def n_arms(self):
+    return len(self.theta)
 
   # Private
 
@@ -57,8 +60,9 @@ class Storage:
     else:
       # Check size of file contents are equals
       sizes = []
-      for k, v in self.files.items():
+      for v in self.files.values():
         sizes.append(len(v))
+
         if not (all(sizes[0] == size for size in sizes)):
           raise Exception('Corrupted storage. Please fix it or remove files into folder ' + self.folder)
 
@@ -71,7 +75,10 @@ class Storage:
     return files
 
   def __get(self, filename):
-    return np.load(self.folder + filename)
+    # np.save method save dict as array
+    # http://stackoverflow.com/a/8361740/4792408
+
+    return np.load(self.folder + filename).item()
 
   def __save(self, filename, content):
     return np.save(self.folder + filename, content)

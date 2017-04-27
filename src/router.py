@@ -31,22 +31,26 @@ class Router(object):
   # Actions
 
   def __get_thetas(self):
-    return ucb.store.theta.tolist()
+    return { k: v.tolist() for k, v in ucb.store.theta.items() }
 
   def __post_arms(self):
-    n_arms = int(''.join(self.postvars['n_arms']))
+    arms = self.postvars['arms']
 
-    return ucb.create_arms(n_arms)
+    return ucb.create_arms(arms)
 
   def __post_tirages(self):
     # Simulate random features for each arm
-    x = np.random.random((ucb.n_arms, ucb.n_features))
+    x = dict()
+
+    for n in ucb.store.theta:
+      x[n] = np.random.random(ucb.n_features)
+    # x = np.random.random(len(ucb.store.arms), ucb.n_features)
 
     return str(ucb.get_arm(x))
 
   def __post_reward(self):
     reward = int(''.join(self.postvars['reward']))
-    i = int(''.join(self.postvars['arm']))
+    n = str(''.join(self.postvars['arm']))
     x = ''.join(self.postvars['x'])
 
-    return ucb.reward(x, i, reward)
+    return ucb.reward(x, n, reward)
