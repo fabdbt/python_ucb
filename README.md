@@ -53,5 +53,7 @@ curl -X POST \
 ```
 
 # TODO :
-- Add persistence (txt file ?)
-- Add Token authentication
+- Add feature
+- Fix tests
+- Remove arm
+- Remove feature (array -> dict)
