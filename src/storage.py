@@ -54,6 +54,12 @@ class Storage:
 
     return arms
 
+  def delete(self, arms = []):
+    for n in arms:
+      self.theta.pop(n)
+      self.A.pop(n)
+      self.b.pop(n)
+
   def save(self):
     if self.persistent == True:
       self.__save('A', self.A)
