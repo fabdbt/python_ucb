@@ -13,7 +13,7 @@ class Router(object):
       self.postvars = cgi.parse_qs(self.args, keep_blank_values=1)
 
       if (self.path == '/arms'):
-        return (self.__post_arms())
+        return (self.__create_arms())
       elif (self.path == '/tirages'):
         return self.__post_tirages()
       elif (self.path == '/reward'):
@@ -30,6 +30,10 @@ class Router(object):
       elif (self.path == '/b'):
         return self.__get_b()
 
+    elif (self.command == 'DELETE'):
+      if self.path == '/arms':
+        return self.__delete_arms()
+
     return False
 
   # Actions
@@ -43,10 +47,15 @@ class Router(object):
   def __get_b(self):
     return { k: v.tolist() for k, v in ucb.store.b.items() }
 
-  def __post_arms(self):
+  def __create_arms(self):
     arms = self.postvars['arms']
 
     return ucb.store.create(arms)
+
+  def __delete_arms(self):
+    arms = self.args['arms']
+
+    return ucb.store.delete(arms)
 
   def __post_tirages(self):
     # Simulate random features for each arm

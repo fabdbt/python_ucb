@@ -22,6 +22,12 @@ class Server(BaseHTTPRequestHandler):
 
       self.__respond(message)
 
+  def do_DELETE(self):
+    if self.__authenticated():
+      message = Router(self.command, self.path, None).process()
+
+      self.__respond(message)
+
   # Private methods
 
   def __authenticated(self):
