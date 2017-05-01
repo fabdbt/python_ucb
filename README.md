@@ -56,4 +56,3 @@ curl -X POST \
 - Add feature
 - Fix tests
 - Remove feature (array -> dict)
-- Prevent creating arm with already used name
