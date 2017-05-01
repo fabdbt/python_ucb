@@ -9,34 +9,36 @@ class Router(object):
     self.args = args
 
   def process(self):
-    if (self.command == 'POST'):
-      self.postvars = cgi.parse_qs(self.args, keep_blank_values=1)
+    try:
+      if (self.command == 'POST'):
+        self.postvars = cgi.parse_qs(self.args, keep_blank_values=1)
 
-      if (self.path == '/arms'):
-        return (self.__create_arms())
-      elif (self.path == '/tirages'):
-        return self.__post_tirages()
-      elif (self.path == '/reward'):
-        return self.__post_reward()
+        if (self.path == '/arms'):
+          return (self.__create_arms())
+        elif (self.path == '/tirages'):
+          return self.__post_tirages()
+        elif (self.path == '/reward'):
+          return self.__post_reward()
 
+      elif (self.command == 'GET'):
+        if self.path == '/':
+          return 'Welcome to LinUCB API !'
+        elif (self.path == '/thetas'):
+          return self.__get_thetas()
+        elif (self.path == '/a'):
+          return self.__get_a()
+        elif (self.path == '/b'):
+          return self.__get_b()
 
-    elif (self.command == 'GET'):
-      if self.path == '/':
-        return 'Welcome to LinUCB API !'
-      elif (self.path == '/thetas'):
-        return self.__get_thetas()
-      elif (self.path == '/a'):
-        return self.__get_a()
-      elif (self.path == '/b'):
-        return self.__get_b()
+      elif (self.command == 'DELETE'):
+        resource = '/arms/'
 
-    elif (self.command == 'DELETE'):
-      resource = '/arms/'
-
-      if self.path.startswith(resource):
-        return self.__delete_arms(self.path[len(resource):])
-
-    return False
+        if self.path.startswith(resource):
+          return self.__delete_arms(self.path[len(resource):])
+    except Exception as e:
+      return 'An error occured'
+    else:
+      return False
 
   # Actions
 

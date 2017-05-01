@@ -40,6 +40,9 @@ class Storage:
       return False
 
   def create(self, arms = []):
+    if all (k in self.theta for k in arms):
+      raise ValueError('Arm(s) already exists')
+
     if self.n_arms() > 0:
       n_features = self.n_features()
     else:
@@ -59,6 +62,8 @@ class Storage:
       self.theta.pop(n)
       self.A.pop(n)
       self.b.pop(n)
+
+    self.save()
 
   def save(self):
     if self.persistent == True:
