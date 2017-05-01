@@ -31,8 +31,10 @@ class Router(object):
         return self.__get_b()
 
     elif (self.command == 'DELETE'):
-      if self.path == '/arms':
-        return self.__delete_arms()
+      resource = '/arms/'
+
+      if self.path.startswith(resource):
+        return self.__delete_arms(self.path[len(resource):])
 
     return False
 
@@ -52,10 +54,8 @@ class Router(object):
 
     return ucb.store.create(arms)
 
-  def __delete_arms(self):
-    arms = self.args['arms']
-
-    return ucb.store.delete(arms)
+  def __delete_arms(self, arm):
+    return ucb.store.delete(arm)
 
   def __post_tirages(self):
     # Simulate random features for each arm

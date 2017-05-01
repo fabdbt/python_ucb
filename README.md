@@ -55,5 +55,5 @@ curl -X POST \
 # TODO :
 - Add feature
 - Fix tests
-- Remove arm
 - Remove feature (array -> dict)
+- Prevent creating arm with already used name
