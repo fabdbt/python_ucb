@@ -73,6 +73,11 @@ class Router(object):
   def __post_reward(self):
     reward = int(''.join(self.postvars['reward']))
     n = str(''.join(self.postvars['arm']))
-    x = ''.join(self.postvars['x'])
+    X = list()
 
-    return ucb.reward(x, n, reward)
+    for i in self.postvars['x']:
+      X.append(float(i))
+
+    X = np.asarray(X)
+
+    return ucb.reward(X, n, reward)
