@@ -22,12 +22,7 @@ for i in range(1000):
   else:
     reward = 0
 
-  X = list()
-  for i in arm_x:
-    X.append(float(i))
-  X = np.asarray(X)
-
-  ucb.reward(X, arm_n, reward)
+  ucb.reward(np.asarray(arm_x), arm_n, reward)
 
 assert (arm_n == 'a')
 
@@ -52,12 +47,7 @@ for i in range(1000):
   else:
     reward = 0
 
-  X = list()
-  for i in arm_x:
-    X.append(float(i))
-  X = np.asarray(X)
-
-  ucb.reward(X, arm_n, reward)
+  ucb.reward(np.asarray(arm_x), arm_n, reward)
 
 for k in ucb.store.theta.keys():
   assert (np.argmax(ucb.store.theta[k]) == 0)
