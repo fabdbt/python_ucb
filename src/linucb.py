@@ -19,9 +19,7 @@ class LinUCB:
   # a simultaneous request and updating same arm. X[i] (arm's features)
   # shouldn't be the same for each tirage, so we need to differentiate them
 
-  def reward(self, x, n, reward):
-    X = np.ndarray((self.store.n_features()), buffer=np.array(x))
-
+  def reward(self, X, n, reward):
     self.store.A[n] += np.outer(X, np.transpose(X))
     self.store.b[n] += reward * X
 
