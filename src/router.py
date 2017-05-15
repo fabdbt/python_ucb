@@ -36,6 +36,7 @@ class Router(object):
         if self.path.startswith(resource):
           return self.__delete_arms(self.path[len(resource):])
     except Exception as e:
+      print(e)
       return 'An error occured'
     else:
       return False
@@ -57,7 +58,7 @@ class Router(object):
     return ucb.store.create(arms)
 
   def __delete_arms(self, arm):
-    return ucb.store.delete(arm)
+    return ucb.store.delete([arm])
 
   def __post_tirages(self):
     # Simulate random features for each arm

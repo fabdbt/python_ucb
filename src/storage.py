@@ -59,6 +59,10 @@ class Storage:
 
   def delete(self, arms = []):
     for n in arms:
+      if ((n not in self.theta) or (n not in self.A) or (n not in self.b)):
+        raise ValueError(n + ' is not a registered arm')
+
+    for n in arms:
       self.theta.pop(n)
       self.A.pop(n)
       self.b.pop(n)
