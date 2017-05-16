@@ -3,7 +3,7 @@ import os
 
 REQUIRED_STORAGE_FILES = ['theta.npy', 'A.npy', 'b.npy']
 CORRUPTED_MESSAGE = 'Corrupted storage. Please fix it or remove files into folder '
-DEFAULT_N_FEATURES = 3
+DEFAULT_N_FEATURES = 1
 
 class Storage:
 
