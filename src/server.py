@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import ssl
 from router import Router
 import os, sys, json
 from urllib.parse import urlparse, parse_qs
@@ -57,10 +58,8 @@ class Server(BaseHTTPRequestHandler):
     self.wfile.write(bytes(json.dumps(response), 'utf-8'))
 
 if __name__ == '__main__':
-  if len(sys.argv) > 1:
-    key = sys.argv[1]
-  elif os.environ.get('AUTH_KEY'):
-    key = os.environ['AUTH_KEY']
+  if os.environ.get('LINUCB_AUTH_KEY'):
+    key = os.environ['LINUCB_AUTH_KEY']
   else:
     key = None
 
@@ -69,8 +68,9 @@ if __name__ == '__main__':
   else:
     print('[Warning] - Public mode API ...')
 
-  server_address = ('0.0.0.0', 8080)
+  server_address = ('0.0.0.0', 443)
   httpd = HTTPServer(server_address, Server)
+  httpd.socket = ssl.wrap_socket (httpd.socket, certfile='./cert.pem', keyfile='./cert.key', server_side=True)
 
   print('Running server...')
 
