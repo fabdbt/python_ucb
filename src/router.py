@@ -60,7 +60,7 @@ class Router(object):
     return ucb.store.create(arms)
 
   def __create_features(self):
-    n_features = self.postvars['n']
+    n_features = int(''.join(self.postvars['n']))
 
     return ucb.store.add_feature(n_features)
 
