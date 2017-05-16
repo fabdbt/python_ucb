@@ -53,5 +53,4 @@ curl -X POST \
 ```
 
 # TODO :
-- Add feature
-- Add / Remove feature (array -> dict)
+- Remove feature (array -> dict)

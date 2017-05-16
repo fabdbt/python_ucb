@@ -64,3 +64,16 @@ ucb.store.create(arms)
 
 assert(ucb.store.n_arms() == (n_arms + len(arms)))
 assert(len(ucb.store.theta) == (n_arms + len(arms)))
+
+# Reset ucb
+ucb = LinUCB(storage = False)
+
+arms = ['a', 'b', 'c']
+ucb.store.create(arms)
+
+# Assert that we can create features
+new_features = 10
+n_features = ucb.store.n_features()
+ucb.store.add_features(new_features)
+
+assert(ucb.store.n_features() == (n_features + new_features))

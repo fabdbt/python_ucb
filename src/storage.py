@@ -70,7 +70,7 @@ class Storage:
 
     self.save()
 
-  def add_feature(self, total = 1):
+  def add_features(self, total = 1):
     for t in range(total):
       for n in self.A:
         self.A[n] = self.__extend_identity_map(self.A[n])
