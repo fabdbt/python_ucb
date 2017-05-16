@@ -19,6 +19,8 @@ class Router(object):
           return self.__post_tirages()
         elif (self.path == '/reward'):
           return self.__post_reward()
+        elif (self.path == '/features'):
+          return (self.__create_features())
 
       elif (self.command == 'GET'):
         if self.path == '/':
@@ -56,6 +58,11 @@ class Router(object):
     arms = self.postvars['arms']
 
     return ucb.store.create(arms)
+
+  def __create_features(self):
+    n_features = self.postvars['n']
+
+    return ucb.store.add_feature(n_features)
 
   def __delete_arms(self, arm):
     return ucb.store.delete([arm])
