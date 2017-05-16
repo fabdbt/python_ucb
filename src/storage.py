@@ -70,6 +70,15 @@ class Storage:
 
     self.save()
 
+  def add_feature(self, total = 1):
+    for t in total:
+      for n in self.A:
+        self.A[n] = self.__extend_identity_map(self.A[n])
+        self.b[n] = np.append(self.b[n], [0.0])
+        self.theta[n] = np.append(self.theta[n], [0.0])
+
+    self.save()
+
   def save(self):
     if self.persistent == True:
       self.__save('A', self.A)
@@ -86,6 +95,15 @@ class Storage:
       return 0
 
   # Private
+
+  def __extend_identity_map(self, identity):
+    copy = identity
+
+    copy = np.append(copy, [[0] * len(copy)], axis=0)
+    copy = np.append(copy, [[0]] * len(copy), axis=1)
+    copy[len(copy) - 1][len(copy) - 1] = 1
+
+    return copy
 
   def __check_storage_files(self):
     # Check all files are presents
