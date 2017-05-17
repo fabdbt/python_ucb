@@ -6,5 +6,5 @@ services:
       - '443:443'
     volumes:
       - ./storage:/storage
-      - /etc/letsencrypt/live/fabiendob.at/cert.pem:/cert.pem
-      - /etc/letsencrypt/live/fabiendob.at/privkey.pem:/cert.key
+      - /etc/letsencrypt/live/python-ucb/cert.pem:/cert.pem
+      - /etc/letsencrypt/live/python-ucb/cert.key:/cert.key
