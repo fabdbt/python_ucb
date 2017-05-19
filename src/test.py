@@ -8,11 +8,11 @@ ucb.store.create(['a', 'b', 'c'])
 
 for i in range(1000):
   # Set random scores
-  x = dict()
+  X = dict()
   for n in ucb.store.theta:
-    x[n] = np.random.random(ucb.store.n_features())
+    X[n] = np.random.random(ucb.store.n_features())
 
-  data = ucb.get_arm(x)
+  data = ucb.pick_arm(X)
 
   arm_x = data['x']
   arm_n = data['arm']
@@ -34,11 +34,11 @@ ucb.store.create(['a', 'b', 'c'])
 
 for i in range(1000):
   # Set random scores
-  x = dict()
+  X = dict()
   for n in ucb.store.theta:
-    x[n] = np.random.random(ucb.store.n_features())
+    X[n] = np.random.random(ucb.store.n_features())
 
-  data = ucb.get_arm(x)
+  data = ucb.pick_arm(X)
   arm_x = data['x']
   arm_n = data['arm']
 
