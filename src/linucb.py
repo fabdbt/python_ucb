@@ -19,30 +19,30 @@ class LinUCB:
   # a simultaneous request and updating same arm. X[i] (arm's features)
   # shouldn't be the same for each tirage, so we need to differentiate them
 
-  def reward(self, X, n, reward):
-    self.store.A[n] += np.outer(X, np.transpose(X))
-    self.store.b[n] += reward * X
+  def reward(self, x, n, reward):
+    self.store.A[n] += np.outer(x, np.transpose(x))
+    self.store.b[n] += reward * x
+
+    inv_A = inv(self.store.A[n])
+    self.store.theta[n] = mult(inv_A, self.store.b[n])
 
     self.store.save()
 
-  def get_arm(self, x):
-    if self.store.n_arms() > 0:
-      best_arm = self.process(x)
+    return True
 
-      return { 'arm': best_arm, 'x': list(x[best_arm]) }
+  def pick_arm(self, X):
+    if self.store.n_arms() > 0:
+      p = dict()
+
+      for n in self.store.A:
+        inv_A = inv(self.store.A[n])
+
+        p[n] = mult(self.store.theta[n], X[n]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[n]), inv_A), X[n]))
+
+      best_arm = max(p, key=p.get)
+
+      return { 'arm': best_arm, 'x': list(X[best_arm]) }
     else:
       return None
-
-  def process(self, X):
-    p = dict()
-
-    for n in self.store.A:
-      inv_A = inv(self.store.A[n])
-      self.store.theta[n] = mult(inv_A, self.store.b[n])
-      p[n] = mult(self.store.theta[n], X[n]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[n]), inv_A), X[n]))
-
-    self.store.save()
-
-    return max(p, key=p.get)
 
 ucb = LinUCB()

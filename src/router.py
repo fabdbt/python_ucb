@@ -9,39 +9,41 @@ class Router(object):
     self.args = args
 
   def process(self):
+    message = None
+
     try:
       if (self.command == 'POST'):
         self.postvars = cgi.parse_qs(self.args, keep_blank_values=1)
 
         if (self.path == '/arms'):
-          return (self.__create_arms())
+          self.__create_arms()
         elif (self.path == '/tirages'):
-          return self.__post_tirages()
+          message = self.__post_tirages()
         elif (self.path == '/reward'):
-          return self.__post_reward()
+          message = self.__post_reward()
         elif (self.path == '/features'):
-          return (self.__create_features())
+          message = self.__create_features()
 
       elif (self.command == 'GET'):
         if self.path == '/':
-          return 'Welcome to LinUCB API !'
+          message =  'Welcome to LinUCB API !'
         elif (self.path == '/thetas'):
-          return self.__get_thetas()
+          message = self.__get_thetas()
         elif (self.path == '/a'):
-          return self.__get_a()
+          message = self.__get_a()
         elif (self.path == '/b'):
-          return self.__get_b()
+          message = self.__get_b()
 
       elif (self.command == 'DELETE'):
         resource = '/arms/'
 
         if self.path.startswith(resource):
-          return self.__delete_arms(self.path[len(resource):])
+          message = self.__delete_arms(self.path[len(resource):])
     except Exception as e:
       print(e)
-      return 'An error occured'
-    else:
-      return False
+      return str(e), False
+
+    return message, message != None
 
   # Actions
 
@@ -75,7 +77,7 @@ class Router(object):
     for n in ucb.store.theta:
       x[n] = np.random.random(ucb.store.n_features())
 
-    return ucb.get_arm(x)
+    return ucb.pick_arm(x)
 
   def __post_reward(self):
     reward = int(''.join(self.postvars['reward']))
