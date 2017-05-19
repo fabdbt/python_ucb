@@ -16,13 +16,13 @@ class Router(object):
         self.postvars = cgi.parse_qs(self.args, keep_blank_values=1)
 
         if (self.path == '/arms'):
-          self.__create_arms()
+          self.__post_arms()
         elif (self.path == '/tirages'):
           message = self.__post_tirages()
         elif (self.path == '/reward'):
           message = self.__post_reward()
         elif (self.path == '/features'):
-          message = self.__create_features()
+          message = self.__post_features()
 
       elif (self.command == 'GET'):
         if self.path == '/':
@@ -33,6 +33,8 @@ class Router(object):
           message = self.__get_a()
         elif (self.path == '/b'):
           message = self.__get_b()
+        elif (self.path == '/stats'):
+          message = self.__get_stats()
 
       elif (self.command == 'DELETE'):
         resource = '/arms/'
@@ -56,12 +58,20 @@ class Router(object):
   def __get_b(self):
     return { k: v.tolist() for k, v in ucb.store.b.items() }
 
-  def __create_arms(self):
+  def __get_stats(self):
+    thetas = self.__get_thetas()
+    print(list(thetas.values()))
+    # print(np.matrix(np.array(thetas.values())))
+    mean_theta = list(np.matrix(thetas.values()).mean(0))
+
+    return mean_theta
+
+  def __post_arms(self):
     arms = self.postvars['arms']
 
     return ucb.store.create(arms)
 
-  def __create_features(self):
+  def __post_features(self):
     n_features = int(''.join(self.postvars['n']))
 
     return ucb.store.add_features(n_features)
