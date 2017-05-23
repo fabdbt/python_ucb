@@ -60,9 +60,15 @@ class Router(object):
 
   def __get_stats(self):
     thetas = self.__get_thetas()
-    mean_theta = np.matrix(np.array(list(thetas.values()))).mean(0)
+    mean_theta = np.matrix(np.array(list(thetas.values()))).mean(0).tolist()[0]
 
-    return mean_theta.tolist()[0]
+    stats = {
+      'n_arms':     ucb.store.n_arms(),
+      'n_features': ucb.store.n_features(),
+      'mean_theta': mean_theta
+    }
+
+    return stats
 
   def __post_arms(self):
     arms = self.postvars['arms']
