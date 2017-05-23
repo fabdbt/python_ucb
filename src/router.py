@@ -60,11 +60,9 @@ class Router(object):
 
   def __get_stats(self):
     thetas = self.__get_thetas()
-    print(list(thetas.values()))
-    # print(np.matrix(np.array(thetas.values())))
-    mean_theta = list(np.matrix(thetas.values()).mean(0))
+    mean_theta = np.matrix(np.array(list(thetas.values()))).mean(0)
 
-    return mean_theta
+    return mean_theta.tolist()[0]
 
   def __post_arms(self):
     arms = self.postvars['arms']
