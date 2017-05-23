@@ -16,7 +16,7 @@ class Router(object):
         self.postvars = cgi.parse_qs(self.args, keep_blank_values=1)
 
         if (self.path == '/arms'):
-          self.__post_arms()
+          message = self.__post_arms()
         elif (self.path == '/tirages'):
           message = self.__post_tirages()
         elif (self.path == '/reward'):
@@ -35,6 +35,8 @@ class Router(object):
           message = self.__get_b()
         elif (self.path == '/stats'):
           message = self.__get_stats()
+        elif (self.path == '/arms'):
+          message = self.__get_arms()
 
       elif (self.command == 'DELETE'):
         resource = '/arms/'
@@ -69,6 +71,9 @@ class Router(object):
     }
 
     return stats
+
+  def __get_arms(self):
+    return list(ucb.store.theta.keys())
 
   def __post_arms(self):
     arms = self.postvars['arms']
