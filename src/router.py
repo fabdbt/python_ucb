@@ -76,12 +76,12 @@ class Router(object):
     return list(ucb.store.theta.keys())
 
   def __post_arms(self):
-    arms = self.postvars['arms']
+    arms = self.postvars.get('arms')
 
     return ucb.store.create(arms)
 
   def __post_features(self):
-    n_features = int(''.join(self.postvars['n']))
+    n_features = int(''.join(self.postvars.get('n')))
 
     return ucb.store.add_features(n_features)
 
@@ -93,17 +93,19 @@ class Router(object):
     # TODO : get from request
     x = dict()
 
-    for n in ucb.store.theta:
-      x[n] = np.random.random(ucb.store.n_features())
+    for i in ucb.store.theta:
+      x[i] = np.random.random(ucb.store.n_features())
 
-    return ucb.pick_arm(x)
+    n = int(''.join(self.postvars.get('n') or '1'))
+
+    return ucb.pick_arm(x, n)
 
   def __post_reward(self):
-    reward = int(''.join(self.postvars['reward']))
-    n = str(''.join(self.postvars['arm']))
+    reward = int(''.join(self.postvars.get('reward')))
+    n = str(''.join(self.postvars.get('arm')))
     X = list()
 
-    for i in self.postvars['x']:
+    for i in self.postvars.get('x'):
       X.append(float(i))
 
     X = np.asarray(X)

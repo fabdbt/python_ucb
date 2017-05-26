@@ -68,7 +68,7 @@ class Storage:
       self.A.pop(n)
       self.b.pop(n)
 
-    self.save()
+    return self.save()
 
   def add_features(self, total = 1):
     for t in range(total):
@@ -77,13 +77,15 @@ class Storage:
         self.b[n] = np.append(self.b[n], [0.0])
         self.theta[n] = np.append(self.theta[n], [0.0])
 
-    self.save()
+    return self.save()
 
   def save(self):
     if self.persistent == True:
       self.__save('A', self.A)
       self.__save('b', self.b)
       self.__save('theta', self.theta)
+
+    return True
 
   def n_arms(self):
     return len(self.theta)

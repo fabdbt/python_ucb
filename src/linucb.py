@@ -30,19 +30,25 @@ class LinUCB:
 
     return True
 
-  def pick_arm(self, X):
-    if self.store.n_arms() > 0:
-      p = dict()
+  def pick_arm(self, X, i = 1):
+    if i > self.store.n_arms():
+      return None
 
-      for n in self.store.A:
-        inv_A = inv(self.store.A[n])
+    p = dict()
 
-        p[n] = mult(self.store.theta[n], X[n]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[n]), inv_A), X[n]))
+    for n in self.store.A:
+      inv_A = inv(self.store.A[n])
 
+      p[n] = mult(self.store.theta[n], X[n]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[n]), inv_A), X[n]))
+
+    if i == 1:
       best_arm = max(p, key=p.get)
 
       return { 'arm': best_arm, 'x': list(X[best_arm]) }
     else:
-      return None
+      best_arms = sorted(p, key=p.get, reverse=True)[:i]
+      xs = { k: v for k, v in X.items() if k in best_arms }
+
+      return { 'arms': best_arms, 'x': { k: v.tolist() for k, v in xs.items() } }
 
 ucb = LinUCB()
