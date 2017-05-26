@@ -32,7 +32,7 @@ class LinUCB:
 
   def pick_arm(self, X, i = 1):
     if i > self.store.n_arms():
-      return None
+      i = self.store.n_arms()
 
     p = dict()
 
