@@ -68,7 +68,7 @@ class Storage:
       self.A.pop(n)
       self.b.pop(n)
 
-    return self.save()
+    return { 'success': self.save() }
 
   def add_features(self, total = 1):
     for t in range(total):
@@ -77,7 +77,7 @@ class Storage:
         self.b[n] = np.append(self.b[n], [0.0])
         self.theta[n] = np.append(self.theta[n], [0.0])
 
-    return self.save()
+    return { 'success': self.save() }
 
   def save(self):
     if self.persistent == True:

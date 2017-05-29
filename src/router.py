@@ -26,7 +26,7 @@ class Router(object):
 
       elif (self.command == 'GET'):
         if self.path == '/':
-          message =  'Welcome to LinUCB API !'
+          message = 'Welcome to LinUCB API !'
         elif (self.path == '/thetas'):
           message = self.__get_thetas()
         elif (self.path == '/a'):
