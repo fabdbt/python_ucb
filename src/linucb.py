@@ -37,6 +37,9 @@ class LinUCB:
     p = dict()
 
     for n in self.store.A:
+      if type(X.get(n)) != list:
+        raise Exception('Theta of arm ' + n + ' is required')
+
       inv_A = inv(self.store.A[n])
 
       p[n] = mult(self.store.theta[n], X[n]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[n]), inv_A), X[n]))
@@ -47,8 +50,8 @@ class LinUCB:
       return { 'arm': best_arm, 'x': list(X[best_arm]) }
     else:
       best_arms = sorted(p, key=p.get, reverse=True)[:i]
-      xs = { k: v for k, v in X.items() if k in best_arms }
+      x = { k: v for k, v in X.items() if k in best_arms }
 
-      return { 'arms': best_arms, 'x': { k: v.tolist() for k, v in xs.items() } }
+      return { 'arms': best_arms, 'x': x }
 
 ucb = LinUCB()

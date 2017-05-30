@@ -1,6 +1,7 @@
 import cgi
 import numpy as np
 from linucb import ucb
+import json
 
 class Router(object):
   def __init__(self, command, path, args):
@@ -89,25 +90,19 @@ class Router(object):
     return ucb.store.delete([arm])
 
   def __post_tirages(self):
-    # Simulate random features for each arm
-    # TODO : get from request
-    x = dict()
-
-    for i in ucb.store.theta:
-      x[i] = np.random.random(ucb.store.n_features())
-
+    X = json.loads(''.join(self.postvars.get('X')))
     n = int(''.join(self.postvars.get('n') or '1'))
 
-    return ucb.pick_arm(x, n)
+    return ucb.pick_arm(X, n)
 
   def __post_reward(self):
     reward = int(''.join(self.postvars.get('reward')))
     n = str(''.join(self.postvars.get('arm')))
-    X = list()
+    x = list()
 
     for i in self.postvars.get('x'):
-      X.append(float(i))
+      x.append(float(i))
 
-    X = np.asarray(X)
+    x = np.asarray(x)
 
-    return ucb.reward(X, n, reward)
+    return ucb.reward(x, n, reward)
