@@ -29,7 +29,7 @@ assert (arm_n == 'a')
 # Reset ucb
 ucb = LinUCB(storage = False)
 
-# Assert that rewarding only if feature 0 is good augmente theta of feature 0
+# Assert that rewarding only if feature 0 is good increase theta of feature 0
 ucb.store.create(['a', 'b', 'c'])
 
 for i in range(1000):
