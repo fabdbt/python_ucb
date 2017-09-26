@@ -8,6 +8,7 @@ A simple HTTP server that handle requests to feed a LinUCB machine learning algo
 
 # How to run it ?
 ```bash
+pip3 install -r requirements.txt
 python3 src/server.py
 ```
 Otherwise, you can use docker to run it (see Dockerfile)
