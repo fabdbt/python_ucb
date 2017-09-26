@@ -7,22 +7,22 @@ ucb = LinUCB(storage = False)
 ucb.store.create(['a', 'b', 'c'])
 
 for i in range(1000):
+  x = dict()
+
   # Set random scores
-  X = dict()
   for n in ucb.store.theta:
-    X[n] = np.random.random(ucb.store.n_features())
+    x[n] = np.random.random(ucb.store.n_features()).tolist()
 
-  data = ucb.pick_arm(X)
+  data = ucb.pick_arm(x)
 
-  arm_x = data['x']
-  arm_n = data['arm']
+  arm_n = data['arms'][0]
 
   if (arm_n == 'a'):
     reward = 100
   else:
     reward = 0
 
-  ucb.reward(np.asarray(arm_x), arm_n, reward)
+  ucb.reward(np.asarray(x[arm_n]), arm_n, reward)
 
 assert (arm_n == 'a')
 
@@ -33,21 +33,21 @@ ucb = LinUCB(storage = False)
 ucb.store.create(['a', 'b', 'c'])
 
 for i in range(1000):
+  x = dict()
+
   # Set random scores
-  X = dict()
   for n in ucb.store.theta:
-    X[n] = np.random.random(ucb.store.n_features())
+    x[n] = np.random.random(ucb.store.n_features()).tolist()
 
-  data = ucb.pick_arm(X)
-  arm_x = data['x']
-  arm_n = data['arm']
+  data = ucb.pick_arm(x)
+  arm_n = data['arms'][0]
 
-  if (arm_x[0] > 0.5):
+  if (x[arm_n][0] > 0.5):
     reward = 100
   else:
     reward = 0
 
-  ucb.reward(np.asarray(arm_x), arm_n, reward)
+  ucb.reward(np.asarray(x[arm_n]), arm_n, reward)
 
 for k in ucb.store.theta.keys():
   assert (np.argmax(ucb.store.theta[k]) == 0)

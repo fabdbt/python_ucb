@@ -61,9 +61,9 @@ if __name__ == '__main__':
   else:
     print('[Warning] - Public mode API ...')
 
-  server_address = ('0.0.0.0', 443)
+  server_address = ('0.0.0.0', 8080)
   httpd = HTTPServer(server_address, Server)
-  httpd.socket = ssl.wrap_socket(httpd.socket, certfile='cert.pem', keyfile='cert.key', server_side=True)
+  # httpd.socket = ssl.wrap_socket(httpd.socket, certfile='cert.pem', keyfile='cert.key', server_side=True)
 
   print('Running server...')
 

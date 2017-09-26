@@ -15,10 +15,6 @@ class LinUCB:
     print(self.store.n_arms(), 'arms')
     print(self.store.n_features(), 'features')
 
-  # x is required into request to prevent 2 people making
-  # a simultaneous request and updating same arm. X[i] (arm's features)
-  # shouldn't be the same for each tirage, so we need to differentiate them
-
   def reward(self, x, n, reward):
     self.store.A[n] += np.outer(x, np.transpose(x))
     self.store.b[n] += reward * x
@@ -38,20 +34,14 @@ class LinUCB:
 
     for n in self.store.A:
       if type(X.get(n)) != list:
-        raise Exception('Theta of arm ' + n + ' is required')
+        raise Exception('Data for arm ' + n + ' is required')
 
       inv_A = inv(self.store.A[n])
 
       p[n] = mult(self.store.theta[n], X[n]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[n]), inv_A), X[n]))
 
-    if i == 1:
-      best_arm = max(p, key=p.get)
+    best_arms = sorted(p, key=p.get, reverse=True)[:i]
 
-      return { 'arm': best_arm, 'x': list(X[best_arm]) }
-    else:
-      best_arms = sorted(p, key=p.get, reverse=True)[:i]
-      x = { k: v for k, v in X.items() if k in best_arms }
-
-      return { 'arms': best_arms, 'x': x }
+    return { 'arms': best_arms }
 
 ucb = LinUCB()
