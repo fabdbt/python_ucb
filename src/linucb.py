@@ -1,5 +1,4 @@
 # coding: utf-8
-# Singleton LinUcb
 
 import numpy as np
 from   numpy.linalg import inv
@@ -43,5 +42,3 @@ class LinUCB:
     best_arms = sorted(p, key=p.get, reverse=True)[:i]
 
     return { 'arms': best_arms }
-
-ucb = LinUCB()
