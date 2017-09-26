@@ -1,7 +1,7 @@
 import numpy as np
 
+# Assert that rewarding only if feature 0 is good increase theta of feature 0
 def assert_it_increases_theta_of_best_rewarded_feature(ucb):
-  # Assert that rewarding only if feature 0 is good increase theta of feature 0
   ucb.store.create(['a', 'b', 'c'])
 
   for i in range(1000):
@@ -24,11 +24,10 @@ def assert_it_increases_theta_of_best_rewarded_feature(ucb):
   for k in ucb.store.theta.keys():
     assert (np.argmax(ucb.store.theta[k]) == 0)
 
+# Assert that we can create features
 def assert_it_can_create_features(ucb):
-  arms = ['a', 'b', 'c']
-  ucb.store.create(arms)
+  ucb.store.create(['a', 'b', 'c'])
 
-  # Assert that we can create features
   new_features = 10
   n_features = ucb.store.n_features()
   ucb.store.add_features(new_features)

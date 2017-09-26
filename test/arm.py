@@ -1,7 +1,7 @@
 import numpy as np
 
+# Assert that rewarding only arm 1 and not 0 set the best arm to 1
 def assert_it_gives_best_rewarded_arm(ucb):
-  # Assert that rewarding only arm 1 and not 0 set the best arm to 1
   ucb.store.create(['a', 'b', 'c'])
 
   for i in range(1000):
@@ -24,12 +24,9 @@ def assert_it_gives_best_rewarded_arm(ucb):
 
   assert (arm_n == 'a')
 
+# Assert that we can create arms
 def assert_it_can_create_arms(ucb):
-  # Assert that we can create arms
-  n_arms = ucb.store.n_arms()
-
   arms = ['a', 'b', 'c']
   ucb.store.create(arms)
 
-  assert(ucb.store.n_arms() == (n_arms + len(arms)))
-  assert(len(ucb.store.theta) == (n_arms + len(arms)))
+  assert(ucb.store.n_arms() == len(arms))
