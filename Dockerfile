@@ -7,7 +7,10 @@ MAINTAINER Fabien Dobat 'fabien.dobat@gmail.com'
 
 RUN apt-get update
 RUN apt-get install python3-tk -y
-RUN pip3 install numpy scipy matplotlib
+
+COPY requirements.txt .
+
+RUN pip3 install -r requirements.txt
 
 COPY ./src /src
 

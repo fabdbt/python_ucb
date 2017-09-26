@@ -54,3 +54,13 @@ curl -X POST \
 
 # TODO :
 - Remove feature (array -> dict)
+
+# Virtualenv + dependencies commands :
+```bash
+pip install virtualenv
+source my_project/bin/activate
+deactivate
+
+pip freeze > requirements.txt
+pip install -r requirements.txt
+```

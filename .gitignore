@@ -1,3 +1,7 @@
 __pycache__
 *.pyc
 storage/*.npy
+/bin
+/include
+/lib
+pip-selfcheck.json
