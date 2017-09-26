@@ -9,7 +9,6 @@ from urllib.parse import urlparse, parse_qs
 AUTH_KEY_NAME = 'LINUCB_AUTH_KEY'
 
 class Server(BaseHTTPRequestHandler):
-
   def do_GET(self):
     if self.__authenticated():
       data = parse_qs(urlparse(self.path).query)

@@ -3,13 +3,14 @@ import numpy as np
 from linucb import LinUCB
 import json
 
+ucb = LinUCB()
+
 class Router(object):
   def __init__(self, command, path, args):
     self.command = command
     self.path = path
     self.args = args
 
-    self.ucb = LinUCB()
 
   def process(self):
     message = None
@@ -55,47 +56,47 @@ class Router(object):
   # Actions
 
   def __get_thetas(self):
-    return { k: v.tolist() for k, v in self.ucb.store.theta.items() }
+    return { k: v.tolist() for k, v in ucb.store.theta.items() }
 
   def __get_a(self):
-    return { k: v.tolist() for k, v in self.ucb.store.A.items() }
+    return { k: v.tolist() for k, v in ucb.store.A.items() }
 
   def __get_b(self):
-    return { k: v.tolist() for k, v in self.ucb.store.b.items() }
+    return { k: v.tolist() for k, v in ucb.store.b.items() }
 
   def __get_stats(self):
     thetas = self.__get_thetas()
     mean_theta = np.matrix(np.array(list(thetas.values()))).mean(0).tolist()[0]
 
     stats = {
-      'n_arms':     self.ucb.store.n_arms(),
-      'n_features': self.ucb.store.n_features(),
+      'n_arms':     ucb.store.n_arms(),
+      'n_features': ucb.store.n_features(),
       'mean_theta': mean_theta
     }
 
     return stats
 
   def __get_arms(self):
-    return list(self.ucb.store.theta.keys())
+    return list(ucb.store.theta.keys())
 
   def __post_arms(self):
     arms = self.postvars.get('arms')
 
-    return self.ucb.store.create(arms)
+    return ucb.store.create(arms)
 
   def __post_features(self):
     n_features = int(''.join(self.postvars.get('n')))
 
-    return self.ucb.store.add_features(n_features)
+    return ucb.store.add_features(n_features)
 
   def __delete_arms(self, arm):
-    return self.ucb.store.delete([arm])
+    return ucb.store.delete([arm])
 
   def __post_tirages(self):
     X = json.loads(''.join(self.postvars.get('X')))
     n = int(''.join(self.postvars.get('n') or '1'))
 
-    return self.ucb.pick_arm(X, n)
+    return ucb.pick_arm(X, n)
 
   def __post_reward(self):
     reward = int(''.join(self.postvars.get('reward')))
@@ -107,4 +108,4 @@ class Router(object):
 
     x = np.asarray(x)
 
-    return self.ucb.reward(x, n, reward)
+    return ucb.reward(x, n, reward)
