@@ -6,12 +6,12 @@ services:
 stages:
   - deploy
 
-build:
-  stage: build
-  script:
-    - docker build -t python_ucb .
-  tags:
-    - docker
+# build:
+#   stage: build
+#   script:
+#     - docker build -t python_ucb .
+#   tags:
+#     - docker
 
 deploy:
   stage: deploy
