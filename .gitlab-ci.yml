@@ -4,7 +4,6 @@ services:
   - docker:dind
 
 stages:
-  # - build
   - deploy
 
 build:
@@ -18,7 +17,5 @@ deploy:
   stage: deploy
   script:
     - docker run --rm -v ~/.ssh/id_rsa:/root/.ssh/id_rsa mdsol/docker-ssh-exec pwd
-  # only:
-  #   - production
   tags:
     - docker
