@@ -1,8 +1,16 @@
+image: docker:latest
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
 stages:
   - build
   # - deploy
+
 build:
-  image: docker:latest
   stage: build
   script:
     - docker build -t python_ucb .
@@ -10,6 +18,7 @@ build:
   #   - production
   tags:
     - docker
+
 # deploy:
 #   image: stackahoy/stackahoy-cli
 #   stage: deploy
