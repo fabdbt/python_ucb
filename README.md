@@ -61,6 +61,7 @@ curl -X POST \
 # Virtualenv + dependencies commands :
 ```bash
 pip install virtualenv
+virtualenv venv
 source my_project/bin/activate
 deactivate
 
