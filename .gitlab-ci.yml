@@ -1,18 +1,13 @@
-variables:
-  REGISTRY: london:222
-  # REPO_ID: 574535091c632d0d00f646cc
 stages:
   - build
-  - deploy
+  # - deploy
 build:
   image: docker:latest
   stage: build
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY
-    - docker build -t $REGISTRY/<PROJECT-GROUP>/<PROJECT-NAME> .
-    - docker push $REGISTRY/<PROJECT-GROUP>/<PROJECT-NAME>
-  only:
-    - production
+    - docker build -t python_ucb .
+  # only:
+  #   - production
   tags:
     - docker
 # deploy:
