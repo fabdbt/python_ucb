@@ -1,4 +1,3 @@
-
 services:
   - docker:dind
 
@@ -15,9 +14,10 @@ build:
     - docker
 
 deploy:
+  image: mdsol/docker-ssh-exec
   stage: deploy
   script:
-    - ssh london date
+    - docker run --rm -v ~/.ssh/id_rsa:/root/.ssh/id_rsa mdsol/docker-ssh-exec pwd
   # only:
   #   - production
   tags:
