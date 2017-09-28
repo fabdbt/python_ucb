@@ -1,4 +1,4 @@
-image: docker:alpine
+image: docker:latest
 
 variables:
   DOCKER_DRIVER: overlay2
