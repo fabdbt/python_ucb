@@ -11,8 +11,8 @@ class LinUCB:
 
     self.store = store.Storage(persistent = storage)
 
-    print(self.store.n_arms(), 'arms')
-    print(self.store.n_features(), 'features')
+    # print(self.store.n_arms(), 'arms')
+    # print(self.store.n_features(), 'features')
 
   def reward(self, x, n, reward):
     self.store.A[n] += np.outer(x, np.transpose(x))
