@@ -15,50 +15,73 @@ Otherwise, you can use docker to run it (see Dockerfile)
 
 # Endpoints:
 - GET /thetas : Get current thetas values
+- GET /a : Get current a values
+- GET /b : Get current b values
 - POST /arms : Create arms (n_arms)
 - POST /reward : Send reward (arm, reward, x)
 - POST /tirages : Send tirages (generated random for moment)
+- DELETE /arms/n : Delete arm (n)
+- POST /features : Add n feature(s)
 
-# Exemple request :
+# Example requests :
 
 ## Get current theta values :
 ```bash
 curl -X GET \
-  http://127.0.0.1:8080/thetas \
-  -H 'cache-control: no-cache' \
-  -H 'content-type: application/x-www-form-urlencoded' \
+  http://127.0.0.01:8080/thetas
+```
+
+## Get current a values :
+```bash
+curl -X GET \
+  http://127.0.0.01:8080/a
+```
+
+## Get current b values :
+```bash
+curl -X GET \
+  http://127.0.0.01:8080/b
 ```
 
 ## Pick arm :
 ```bash
 curl -X POST \
-  http://127.0.0.1:8080/tirages \
-  -H 'cache-control: no-cache' \
+  http://localhost:8080/tirages \
   -H 'content-type: application/x-www-form-urlencoded' \
+  -d 'n=4&X=%7B%20%22a%22%3A%20%5B100%2C%207%5D%2C%20%22b%22%3A%20%5B10%2C%2044%5D%2C%20%22e%22%3A%20%5B100%2C%2091%5D%2C%20%22f%22%3A%20%5B10%2C%2092%5D%20%7D'
 ```
 
 ## Post reward :
 ```bash
 curl -X POST \
-  http://127.0.0.1:8080/reward \
-  -H 'cache-control: no-cache' \
+  http://localhost:8080/reward \
   -H 'content-type: application/x-www-form-urlencoded' \
-  -d 'arm=0&reward=100&x=%5B0.99109423889623149%2C%200.99403990262967967%2C%200.11750633515302655%5D'
+  -d 'arm=e&reward=100&x=0.94327796315973622&x=0.98546216493058936'
 ```
 
 ## Add arm :
 ```bash
 curl -X POST \
-  http://127.0.0.1:8080/arms \
-  -H 'cache-control: no-cache' \
+  http://127.0.0.01:8080/arms \
   -H 'content-type: application/x-www-form-urlencoded' \
-  -d n_arms=5
+  -d 'arms=e&arms=f'
 ```
 
-# TODO :
-- Remove feature (array -> dict)
+## Delete arm :
+```bash
+curl -X DELETE \
+  http://localhost:8080/arms/e
+```
 
-# Virtualenv + dependencies commands :
+## Add feature :
+``` bash
+curl -X POST \
+  http://127.0.0.01:8080/features \
+  -H 'content-type: application/x-www-form-urlencoded' \
+  -d n=1
+```
+
+## Virtualenv + dependencies commands :
 ```bash
 pip install virtualenv
 virtualenv venv

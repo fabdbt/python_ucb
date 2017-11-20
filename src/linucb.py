@@ -14,6 +14,7 @@ class LinUCB:
     # print(self.store.n_arms(), 'arms')
     # print(self.store.n_features(), 'features')
 
+  # x are features of arm n
   def reward(self, x, n, reward):
     self.store.A[n] += np.outer(x, np.transpose(x))
     self.store.b[n] += reward * x
@@ -25,6 +26,7 @@ class LinUCB:
 
     return True
 
+  # X is a hash of features of all arms
   def pick_arm(self, X, i = 1):
     if i > self.store.n_arms():
       i = self.store.n_arms()
@@ -33,7 +35,7 @@ class LinUCB:
 
     for n in self.store.A:
       if type(X.get(n)) != list:
-        raise Exception('Data for arm ' + n + ' is required')
+        raise Exception('Features for arm ' + n + ' are required')
 
       inv_A = inv(self.store.A[n])
 
