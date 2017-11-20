@@ -30,3 +30,12 @@ def assert_it_can_create_arms(ucb):
   ucb.store.create(arms)
 
   assert(ucb.store.n_arms() == len(arms))
+
+# Assert that we can delete arms
+def assert_it_can_delete_arm(ucb):
+  arms = ['a', 'b', 'c']
+  ucb.store.create(arms)
+
+  ucb.store.delete(arms[0])
+
+  assert(ucb.store.n_arms() == len(arms) - 1)

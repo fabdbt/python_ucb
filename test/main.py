@@ -13,6 +13,9 @@ arm.assert_it_gives_best_rewarded_arm(ucb)
 ucb = LinUCB(storage = False)
 arm.assert_it_can_create_arms(ucb)
 
+ucb = LinUCB(storage = False)
+arm.assert_it_can_delete_arm(ucb)
+
 # Features tests
 ucb = LinUCB(storage = False)
 feature.assert_it_increases_theta_of_best_rewarded_feature(ucb)
