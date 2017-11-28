@@ -41,6 +41,8 @@ class Router(object):
           message = self.__get_stats()
         elif (self.path == '/arms'):
           message = self.__get_arms()
+        elif (self.path == '/ping'):
+          message = 'pong'
 
       elif (self.command == 'DELETE'):
         resource = '/arms/'

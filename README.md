@@ -22,6 +22,8 @@ Otherwise, you can use docker to run it (see Dockerfile)
 - POST /tirages : Send tirages (generated random for moment)
 - DELETE /arms/n : Delete arm (n)
 - POST /features : Add n feature(s)
+- GET /stats : Get stats
+- GET /ping : Respond pong if API is running
 
 # Example requests :
 
@@ -79,6 +81,12 @@ curl -X POST \
   http://127.0.0.01:8080/features \
   -H 'content-type: application/x-www-form-urlencoded' \
   -d n=1
+```
+
+## Stats :
+```bash
+curl -X GET \
+  http://127.0.0.01:8080/stats
 ```
 
 ## Virtualenv + dependencies commands :
