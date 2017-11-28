@@ -89,6 +89,12 @@ curl -X GET \
   http://127.0.0.01:8080/stats
 ```
 
+## Ping :
+```bash
+curl -X GET \
+  http://127.0.0.01:8080/ping
+```
+
 ## Virtualenv + dependencies commands :
 ```bash
 pip install virtualenv
