@@ -43,4 +43,4 @@ class LinUCB:
 
     best_arms = sorted(p, key=p.get, reverse=True)[:i]
 
-    return { 'arms': best_arms }
+    return best_arms
