@@ -21,7 +21,7 @@ class TestFeatures(unittest.TestCase):
         x[n] = np.random.random(ucb.store.n_features()).tolist()
 
       data = ucb.pick_arm(x)
-      arm_n = data['arms'][0]
+      arm_n = data[0]
 
       if (x[arm_n][0] > 0.5):
         reward = 100

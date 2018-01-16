@@ -22,7 +22,7 @@ class TestArms(unittest.TestCase):
 
       data = ucb.pick_arm(x)
 
-      arm_n = data['arms'][0]
+      arm_n = data[0]
 
       if (arm_n == 'a'):
         reward = 100
