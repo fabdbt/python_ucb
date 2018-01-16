@@ -69,11 +69,13 @@ class Router(object):
   def __get_stats(self):
     thetas = self.__get_thetas()
     mean_theta = np.matrix(np.array(list(thetas.values()))).mean(0).tolist()[0]
+    median_theta = np.median(np.array(list(thetas.values())), axis=0).tolist()
 
     stats = {
       'n_arms':     ucb.store.n_arms(),
       'n_features': ucb.store.n_features(),
-      'mean_theta': mean_theta
+      'mean_theta': mean_theta,
+      'median_theta': median_theta
     }
 
     return stats
