@@ -1,5 +1,5 @@
 import os, sys
-import numpy as np
+from numpy import random, asarray, argmax
 import unittest
 
 sys.path.insert(0, os.getcwd() + '/src')
@@ -18,7 +18,7 @@ class TestFeatures(unittest.TestCase):
 
       # Set random scores
       for n in ucb.store.theta:
-        x[n] = np.random.random(ucb.store.n_features()).tolist()
+        x[n] = random.random(ucb.store.n_features()).tolist()
 
       data = ucb.pick_arm(x)
       arm_n = data[0]
@@ -28,10 +28,10 @@ class TestFeatures(unittest.TestCase):
       else:
         reward = 0
 
-      ucb.reward(np.asarray(x[arm_n]), arm_n, reward)
+      ucb.reward(asarray(x[arm_n]), arm_n, reward)
 
     for k in ucb.store.theta.keys():
-      assert (np.argmax(ucb.store.theta[k]) == 0)
+      assert (argmax(ucb.store.theta[k]) == 0)
 
   # Assert that we can create features
   def test_it_can_create_features(self):

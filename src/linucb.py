@@ -1,8 +1,7 @@
 # coding: utf-8
 
-import numpy as np
-from   numpy.linalg import inv
-from   numpy import matmul as mult
+from numpy import outer, transpose, sqrt, matmul
+from numpy.linalg import inv
 import storage as store
 
 class LinUCB:
@@ -16,11 +15,11 @@ class LinUCB:
 
   # x are features of arm n
   def reward(self, x, n, reward):
-    self.store.A[n] += np.outer(x, np.transpose(x))
+    self.store.A[n] += outer(x, transpose(x))
     self.store.b[n] += reward * x
 
     inv_A = inv(self.store.A[n])
-    self.store.theta[n] = mult(inv_A, self.store.b[n])
+    self.store.theta[n] = matmul(inv_A, self.store.b[n])
 
     self.store.save()
 
@@ -39,7 +38,7 @@ class LinUCB:
 
       inv_A = inv(self.store.A[n])
 
-      p[n] = mult(self.store.theta[n], X[n]) + self.alpha * np.sqrt(mult(mult(np.transpose(X[n]), inv_A), X[n]))
+      p[n] = matmul(self.store.theta[n], X[n]) + self.alpha * sqrt(matmul(matmul(transpose(X[n]), inv_A), X[n]))
 
     best_arms = sorted(p, key=p.get, reverse=True)[:i]
 

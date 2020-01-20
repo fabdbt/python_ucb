@@ -6,4 +6,3 @@ storage/*.npy
 /lib
 pip-selfcheck.json
 venv/
-

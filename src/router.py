@@ -1,5 +1,5 @@
 import cgi
-import numpy as np
+from numpy import matrix, median, array, asarray
 from linucb import LinUCB
 import json
 
@@ -68,8 +68,8 @@ class Router(object):
 
   def __get_stats(self):
     thetas = self.__get_thetas()
-    mean_theta = np.matrix(np.array(list(thetas.values()))).mean(0).tolist()[0]
-    median_theta = np.median(np.array(list(thetas.values())), axis=0).tolist()
+    mean_theta = matrix(array(list(thetas.values()))).mean(0).tolist()[0]
+    median_theta = median(array(list(thetas.values())), axis=0).tolist()
 
     stats = {
       'n_arms':     ucb.store.n_arms(),
@@ -110,6 +110,6 @@ class Router(object):
     for i in self.postvars.get('x'):
       x.append(float(i))
 
-    x = np.asarray(x)
+    x = asarray(x)
 
     return ucb.reward(x, n, reward)

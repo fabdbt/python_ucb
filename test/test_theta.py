@@ -1,5 +1,4 @@
 import os, sys
-import numpy as np
 import unittest
 
 sys.path.insert(0, os.getcwd() + '/src')
