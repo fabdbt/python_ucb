@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/Apokly/python_ucb/tree/master.svg?style=svg)](https://circleci.com/gh/Apokly/python_ucb/tree/master)
+[![Github Action](https://github.com/Apokly/python_ucb/workflows/Python%20application/badge.svg)](https://github.com/Apokly/python_ucb/actions)
 
 # Description
 A simple HTTP server that handle requests to feed a LinUCB machine learning algorithm
