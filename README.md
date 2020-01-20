@@ -99,7 +99,7 @@ curl -X GET \
 ```bash
 pip install virtualenv
 virtualenv venv
-source my_project/bin/activate
+source venv/bin/activate
 deactivate
 
 pip freeze > requirements.txt
