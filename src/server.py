@@ -3,7 +3,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import ssl
 from router import Router
-import os, sys, json
+import os, json
 from urllib.parse import urlparse, parse_qs
 
 AUTH_KEY_NAME = 'LINUCB_AUTH_KEY'

@@ -1,4 +1,4 @@
-import numpy as np
+from numpy import identity, repeat, append, intersect1d, load, save
 import os
 
 REQUIRED_STORAGE_FILES = ['theta.npy', 'A.npy', 'b.npy']
@@ -50,9 +50,9 @@ class Storage:
       n_features = DEFAULT_N_FEATURES # First arm features
 
     for n in arms:
-      self.A[n] = np.identity(n_features)
-      self.b[n] = np.repeat(0.0, n_features)
-      self.theta[n] = np.repeat(0.0, n_features)
+      self.A[n] = identity(n_features)
+      self.b[n] = repeat(0.0, n_features)
+      self.theta[n] = repeat(0.0, n_features)
 
     self.save()
 
@@ -74,8 +74,8 @@ class Storage:
     for t in range(total):
       for n in self.A:
         self.A[n] = self.__extend_identity_map(self.A[n])
-        self.b[n] = np.append(self.b[n], [0.0])
-        self.theta[n] = np.append(self.theta[n], [0.0])
+        self.b[n] = append(self.b[n], [0.0])
+        self.theta[n] = append(self.theta[n], [0.0])
 
     return self.save()
 
@@ -101,8 +101,8 @@ class Storage:
   def __extend_identity_map(self, identity):
     copy = identity
 
-    copy = np.append(copy, [[0] * len(copy)], axis=0)
-    copy = np.append(copy, [[0]] * len(copy), axis=1)
+    copy = append(copy, [[0] * len(copy)], axis=0)
+    copy = append(copy, [[0]] * len(copy), axis=1)
     copy[len(copy) - 1][len(copy) - 1] = 1
 
     return copy
@@ -123,7 +123,7 @@ class Storage:
   def __get_storage_files(self):
     files = {}
     # Prevent from listing directory on each call if files are found
-    for filename in np.intersect1d(REQUIRED_STORAGE_FILES, os.listdir(self.folder)):
+    for filename in intersect1d(REQUIRED_STORAGE_FILES, os.listdir(self.folder)):
       files[filename] = self.__get(filename)
 
     return files
@@ -132,7 +132,7 @@ class Storage:
     # np.save method save dict as array
     # http://stackoverflow.com/a/8361740/4792408
 
-    return np.load(self.folder + filename).item()
+    return load(self.folder + filename).item()
 
   def __save(self, filename, content):
-    return np.save(self.folder + filename, content)
+    return save(self.folder + filename, content)

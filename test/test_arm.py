@@ -1,5 +1,5 @@
 import os, sys
-import numpy as np
+from numpy import random, asarray
 import unittest
 
 sys.path.insert(0, os.getcwd() + '/src')
@@ -18,7 +18,7 @@ class TestArms(unittest.TestCase):
 
       # Set random scores
       for n in ucb.store.theta:
-        x[n] = np.random.random(ucb.store.n_features()).tolist()
+        x[n] = random.random(ucb.store.n_features()).tolist()
 
       data = ucb.pick_arm(x)
 
@@ -29,7 +29,7 @@ class TestArms(unittest.TestCase):
       else:
         reward = 0
 
-      ucb.reward(np.asarray(x[arm_n]), arm_n, reward)
+      ucb.reward(asarray(x[arm_n]), arm_n, reward)
 
     assert (arm_n == 'a')
 
