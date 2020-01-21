@@ -4,26 +4,29 @@
 A simple HTTP server that handle requests to feed a LinUCB machine learning algorithm
 
 # Dependencies
-- Python 3
+- Python 3 and `requirements.txt` file dependencies
 
 # How to run it ?
 ```bash
 pip3 install -r requirements.txt
+
 python3 src/server.py
 ```
 Otherwise, you can use docker to run it (see Dockerfile)
 
 # Endpoints:
-- GET /thetas : Get current thetas values
-- GET /a : Get current a values
-- GET /b : Get current b values
-- POST /arms : Create arms (n_arms)
-- POST /reward : Send reward (arm, reward, x)
-- POST /tirages : Send tirages (generated random for moment)
-- DELETE /arms/n : Delete arm (n)
-- POST /features : Add n feature(s)
-- GET /stats : Get stats
-- GET /ping : Respond pong if API is running
+- GET `/thetas` : Get current thetas values
+- GET `/a` : Get current a values
+- GET `/b` : Get current b values
+- GET `/stats` : Get stats
+- GET `/ping` : Respond pong if API is running
+
+- POST `/arms` : Create arms (n_arms)
+- POST `/reward` : Send reward (arm, reward, x)
+- POST `/tirages` : Send tirages (generated random for moment)
+- POST `/features` : Add n feature(s)
+
+- DELETE `/arms/:n` : Delete arm (n)
 
 # Example requests :
 
