@@ -135,7 +135,7 @@ class Storage:
         # np.save method save dict as array
         # http://stackoverflow.com/a/8361740/4792408
 
-        return load(self.folder + filename).item()
+        return load(self.folder + filename, allow_pickle=True).item()
 
     def __save(self, filename, content):
         return save(self.folder + filename, content)
