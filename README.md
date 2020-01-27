@@ -18,6 +18,7 @@ Otherwise, you can use docker to run it (see Dockerfile)
 - GET `/thetas` : Get current thetas values
 - GET `/a` : Get current a values
 - GET `/b` : Get current b values
+- GET `/arms` : Get arms names
 - GET `/stats` : Get stats
 - GET `/ping` : Respond pong if API is running
 

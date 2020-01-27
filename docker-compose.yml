@@ -3,8 +3,6 @@ services:
   web:
     build: .
     ports:
-      - '443:443'
+      - '8080:8080'
     volumes:
       - ./storage:/storage
-      - /etc/letsencrypt/live/python-ucb/cert.pem:/cert.pem
-      - /etc/letsencrypt/live/python-ucb/cert.key:/cert.key

@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-# import ssl
 from router import Router
 import os
 import json
@@ -67,7 +66,6 @@ if __name__ == '__main__':
 
     server_address = ('0.0.0.0', 8080)
     httpd = HTTPServer(server_address, Server)
-    # httpd.socket = ssl.wrap_socket(httpd.socket, certfile='cert.pem', keyfile='cert.key', server_side=True)
 
     print('Running server...')
 

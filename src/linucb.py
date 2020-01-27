@@ -8,11 +8,7 @@ import storage as store
 class LinUCB:
     def __init__(self, alpha=20, storage=True):
         self.alpha = alpha
-
         self.store = store.Storage(persistent=storage)
-
-        # print(self.store.n_arms(), 'arms')
-        # print(self.store.n_features(), 'features')
 
     # x are features of arm n
     def reward(self, x, n, reward):

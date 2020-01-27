@@ -39,7 +39,7 @@ class Router(object):
                         '/a': self.__get_a,
                         '/b': self.__get_b,
                         '/stats': self.__get_stats,
-                        '/': self.__get_arms
+                        '/arms': self.__get_arms
                     }
 
                     message = m[self.path]()
